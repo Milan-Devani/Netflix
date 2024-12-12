@@ -645,8 +645,8 @@
     }
 }
 
-/* @media only screen and (max-width: 330px){
-    .selectedMovie-details-section {
-        top: 15%;
+@media only screen and (max-width: 370px){
+    .selectedMovie-details-section h1{
+        font-size: 22px;
     }
-} */
+}
