@@ -23,7 +23,10 @@ import {
   getTvshowTrailer,
 } from "../Redux/features/Tvshow/TvshowSlice";
 import { tvshowaddToWishlist } from "../Redux/features/wishlist/wishlistSlice";
-import { movieaddToFavoritelist, tvshowaddToFavoritelist } from "../Redux/features/favorite/FavoriteSlice";
+import {
+  movieaddToFavoritelist,
+  tvshowaddToFavoritelist,
+} from "../Redux/features/favorite/FavoriteSlice";
 
 function Tvshowswishlist() {
   const dispatch = useDispatch();
@@ -67,9 +70,13 @@ function Tvshowswishlist() {
   }, [dispatch]);
 
   console.log("wishlistitemmmm", wishlistitem);
-  const tvshowWishlist = wishlistitem.filter(
-    (item) => item.media_type === "tv" || !item.media_type
-  );
+  const tvshowWishlist = wishlistitem
+  .filter((item) => item.media_type === "tv" || !item.media_type)
+  .map((item) => ({
+    ...item,
+    original_name: item.original_name || "Default Name",
+  }));
+
   if (isLoading === true) {
     return (
       <div className="main-preloader">
@@ -289,11 +296,25 @@ function Tvshowswishlist() {
                         className="cursor-pointer"
                       />
                     </div>
-                    <div className="img-inner-text absolute bottom-[10px] left-[10px] font-NetflixSans text-white">
+                    {/* <div className="img-inner-text absolute bottom-[10px] left-[10px] font-NetflixSans text-white">
                       <h1>
                         {tvshow?.name.length > 13
                           ? `${tvshow.name.slice(0, 13)}...`
                           : tvshow.name}
+                      </h1>
+                    </div> */}
+
+                    <div className="img-inner-text absolute bottom-[10px] left-[10px] font-NetflixSans text-white">
+                      <h1>
+                        {tvshow?.name
+                          ? tvshow.name.length > 13
+                            ? `${tvshow.name.slice(0, 13)}...`
+                            : tvshow.name
+                          : tvshow?.title
+                          ? tvshow.title.length > 13
+                            ? `${tvshow.title.slice(0, 13)}...`
+                            : tvshow.title
+                          : "Untitled"}
                       </h1>
                     </div>
                   </div>
