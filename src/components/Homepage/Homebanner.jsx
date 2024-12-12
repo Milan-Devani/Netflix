@@ -114,7 +114,6 @@ function Homebanner() {
   }
 
   let handlegenres = selectedMovieDetails.genres;
-  // console.log("hendlegenres", handlegenres);
 
   let voteAverage = selectedMovieDetails.vote_average;
   console.log("voteAverage", voteAverage);

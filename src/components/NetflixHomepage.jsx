@@ -39,13 +39,13 @@ function NetflixHomepage() {
         <Homebanner />
         <div className="px-[15px]">
           <TrendingMovieRow />
-        <TvshowRowTrending />
-        <NowPlayMoviePage />
-        <PopularMoviesRow />
-        <Populartv/>
-        <TvshowAiringToday />
-        <TopRatedMovie />
-        <UpcomingMovie />
+          <TvshowRowTrending />
+          <NowPlayMoviePage />
+          <PopularMoviesRow />
+          <Populartv />
+          <TvshowAiringToday />
+          <TopRatedMovie />
+          <UpcomingMovie />
         </div>
       </div>
     </div>

@@ -221,6 +221,11 @@
 
 @media only screen and (max-width: 1280px){
 
+    .navbar{
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
     .footer-input{
         width: 55%;
     }
@@ -235,6 +240,26 @@
         top: 15.9% !important;
         width: 3.5vw !important;
         height: 21.5vh !important;
+    }
+}
+
+@media only screen and (max-width: 1200px){
+
+    .navbar{
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .navbar-logo .logo{
+        width: 150px;
+        margin-right: 0;
+    }
+    
+}
+
+@media only screen and (max-width: 1130px){
+    .navbar-links-subb{
+        gap: 15px;
     }
 }
 
@@ -333,6 +358,11 @@
 
     .selectedMovie-Similar-row-img{
         width: 40%;
+    }
+
+    .navbar{
+        padding-left: 40px;
+        padding-right: 40px;
     }
 }
 
@@ -463,6 +493,11 @@
 
 @media only screen and (max-width: 578px){
 
+    .navbar{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
     .Features{
         padding-left: 50px;
         padding-right: 50px;
@@ -545,9 +580,6 @@
 
     .selectedMovie-details-section {
         top: 30%;
-    }
-
-    .selectedMovie-details-section {
         padding: 20px;
     }
 
@@ -560,11 +592,7 @@
     }
     
     .selectedMovie-play-section {
-        height: 100%;
-    }
-
-    .selectedMovie-details-section {
-        top: 22%;
+        height: 270px;
     }
 
     .play-btn{
@@ -595,9 +623,6 @@
         padding-right: 20px;
     }
 
-    .mob-vieww{
-        left: -153px;
-    }
 }
 
 @media only screen and (max-width: 380px){
@@ -611,17 +636,17 @@
         font-size: 6vw !important;
     }
 
-    .selectedMovie-details-section {
+    /* .selectedMovie-details-section {
         top: 20%;
-    }
+    } */
 
     .selectedMovie-details-section-icon{
         margin-top: 30px;
     }
 }
 
-@media only screen and (max-width: 330px){
+/* @media only screen and (max-width: 330px){
     .selectedMovie-details-section {
         top: 15%;
     }
-}
+} */
