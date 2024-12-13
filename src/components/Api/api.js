@@ -185,7 +185,7 @@ export const fetchMovieTrailer = async (movieId) => {
 
 export const fetchMovieCedites = async (movieId) => {
   try {
-    console.log(`Fetching movie credits for ID: ${movieId}`); // Debugging line
+    // console.log(`Fetching movie credits for ID: ${movieId}`); 
     const response = await axios.get(`${BASE_URL}/movie/${movieId}/credits`, {
       params: {
         api_key: API_KEY,
@@ -229,7 +229,7 @@ export const fetchBannerTvshow = async () => {
 
 export const fetchMoviedetails = async (movieId) => {
   try {
-    console.log(`Fetching movie details for ID: ${movieId}`); // Debugging line
+    // console.log(`Fetching movie details for ID: ${movieId}`); // Debugging line
     const response = await axios.get(`${BASE_URL}/movie/${movieId}`, {
       params: {
         api_key: API_KEY,
@@ -275,7 +275,7 @@ export const fetchCertifications = async (movieId) => {
 
 export const fetchMovieSimilar = async (movieId) => {
   try {
-    console.log(`Fetching movie similar for ID: ${movieId}`); // Debugging line
+    // console.log(`Fetching movie similar for ID: ${movieId}`); // Debugging line
     const response = await axios.get(`${BASE_URL}/movie/${movieId}/similar`, {
       params: {
         api_key: API_KEY,
@@ -394,7 +394,7 @@ export const fetchTVShow = async () => {
   if (response.status !== 200) {
     throw new Error("Failed to fetch data");
   }
-  console.log("API Response:", response.data); // Add this line for debugging
+  // console.log("API Response:", response.data); // Add this line for debugging
   return response.data;
 };
 
@@ -402,7 +402,7 @@ export const fetchTVShow = async () => {
 
 export const fetchTvshowdetails = async (tvshowId) => {
   try {
-    console.log(`Fetching tvshow details for ID: ${tvshowId}`); // Debugging line
+    // console.log(`Fetching tvshow details for ID: ${tvshowId}`); // Debugging line
     const response = await axios.get(`${BASE_URL}/tv/${tvshowId}`, {
       params: {
         api_key: API_KEY,
@@ -423,7 +423,7 @@ export const fetchTvshowdetails = async (tvshowId) => {
 
 export const fetchTvshowCedites = async (tvshowId) => {
   try {
-    console.log(`Fetching tvshow credits for ID: ${tvshowId}`); // Debugging line
+    // console.log(`Fetching tvshow credits for ID: ${tvshowId}`); // Debugging line
     const response = await axios.get(`${BASE_URL}/tv/${tvshowId}/credits`, {
       params: {
         api_key: API_KEY,
@@ -444,7 +444,7 @@ export const fetchTvshowCedites = async (tvshowId) => {
 
 export const fetchTvshowEpisode = async (tvshowId) => {
   try {
-    console.log(`Fetching tv for ID: ${tvshowId}`); // Debugging line
+    // console.log(`Fetching tv for ID: ${tvshowId}`); // Debugging line
     const response = await axios.get(`${BASE_URL}/tv/${tvshowId}/episode_groups`, {
       params: {
         api_key: API_KEY,
@@ -497,7 +497,7 @@ export const fetchTvshowTrailer = async (tvshowId) => {
 
 export const fetchTvshowSeason = async (seasonId, seasonNumber) => {
   try {
-    console.log(`Fetching season for TV show with ID: ${seasonId}, Season: ${seasonNumber}`);
+    // console.log(`Fetching season for TV show with ID: ${seasonId}, Season: ${seasonNumber}`);
     const response = await axios.get(
       `${BASE_URL}/tv/${seasonId}/season/${seasonNumber}`,
       {
@@ -539,7 +539,7 @@ export const fetchTVCertifications = async () => {
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=Search-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\\
 
 export const searchMoviesandTvshow = async (query) => {
-  console.log("Query:", query);
+  // console.log("Query:", query);
   try {
     const response = await axios.get(`${BASE_URL}/search/multi`, {
       params: {
@@ -551,7 +551,7 @@ export const searchMoviesandTvshow = async (query) => {
         accept: "application/json",
       },
     });
-    console.log("Response Data:", response.data.results);
+    // console.log("Response Data:", response.data.results);
     return response.data.results;
   } catch (error) {
     console.error("Error fetching search results:", error);

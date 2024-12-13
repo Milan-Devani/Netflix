@@ -1,4 +1,3 @@
-// src/wishlistSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const wishlistSlice = createSlice({

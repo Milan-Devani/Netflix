@@ -124,25 +124,12 @@ export const getTvshowTrailer = createAsyncThunk(
   }
 );
 
-// export const getTvshowSeason = createAsyncThunk(
-//   "tvshow/getTvshowSeason",
-//   async (seasonId, seasonNumber, { rejectWithValue }) => {
-//     try {
-//       console.log("seasonNumber , seasonId" ,seasonId ,seasonNumber  );
-      
-//       const tvseasonepisode = await fetchTvshowSeason(seasonId, seasonNumber);
-//       return tvseasonepisode;
-//     } catch (error) {
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
 
 export const getTvshowSeason = createAsyncThunk(
   "tvshow/getTvshowSeason",
   async ({ seasonId, seasonNumber }, { rejectWithValue }) => {
     try {
-      console.log("Season ID:", seasonId, "Season Number:", seasonNumber);
+      // console.log("Season ID:", seasonId, "Season Number:", seasonNumber);
       const tvseasonepisode = await fetchTvshowSeason(seasonId, seasonNumber);
       return tvseasonepisode;
     } catch (error) {
@@ -161,42 +148,6 @@ export const getTVCertifications = createAsyncThunk(
     return data;
   }
 );
-
-// export const getTvshowCertifications = createAsyncThunk(
-//   'movies/getTvshowCertifications',
-//   async (tvshowId, { rejectWithValue }) => {
-//     try {
-//       const tvshowCertifications = await fetchTvshowCertifications(tvshowId); // Pass movieId here
-//       return tvshowCertifications;
-//     } catch (error) {
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
-
-// export const getTVShowCertifications = createAsyncThunk(
-//   "Tvshow/getTVShowCertifications",
-//   async (tvshowId, { rejectWithValue }) => {
-//     try {
-//       const selectedTvshowCertifications = await fetchTvshowCertifications(tvshowId);
-//       return selectedTvshowCertifications;
-//     } catch (error) {
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
-
-// export const getMovieCertifications = createAsyncThunk(
-//   'movies/getMovieCertifications',
-//   async (movieId, { rejectWithValue }) => {
-//     try {
-//       const movieCertifications = await fetchCertifications(movieId); // Pass movieId here
-//       return movieCertifications;
-//     } catch (error) {
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
 
 const TvshowSlice = createSlice({
   name: "Tvshow",
@@ -306,18 +257,6 @@ const TvshowSlice = createSlice({
         state.error = action.payload;
       })
 
-      // .addCase(getTVShowCertifications.fulfilled, (state, action) => {
-      //   state.trailerKey = action.payload.trailerKey;
-      //   state.selectedTvshowCertifications = action.payload;
-      //   state.status = "succeeded";
-      // })
-      // .addCase(getTVShowCertifications.pending, (state) => {
-      //   state.status = "loading";
-      // })
-      // .addCase(getTVShowCertifications.rejected, (state, action) => {
-      //   state.error = action.error.message;
-      // })
-
       .addCase(getTvshowCedites.fulfilled, (state, action) => {
         state.trailerKey = action.payload.trailerKey;
         state.selectedTvshowCedites = action.payload;
@@ -369,44 +308,3 @@ const TvshowSlice = createSlice({
 });
 
 export default TvshowSlice.reducer;
-
-// // src/features/TvshowSlice.js
-// import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import { fetchTVAiringToday } from "../../../Api/api";
-
-// export const getTVAiringToday = createAsyncThunk(
-//   "tvshow/fetch",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const tvshows = await fetchTVAiringToday();
-//       return tvshows;
-//     } catch (error) {
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
-
-// const TvshowSlice = createSlice({
-//   name: "tvshow",
-//   initialState: {
-//     airingToday: [],
-//     status: "idle",
-//     error: null,
-//   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(getTVAiringToday.pending, (state) => {
-//         state.status = "loading";
-//       })
-//       .addCase(getTVAiringToday.fulfilled, (state, action) => {
-//         state.status = "succeeded";
-//         state.airingToday = action.payload.results;
-//       })
-//       .addCase(getTVAiringToday.rejected, (state, action) => {
-//         state.status = "failed";
-//         state.error = action.error.message;
-//       });
-//   },
-// });
-
-// export default TvshowSlice.reducer;
