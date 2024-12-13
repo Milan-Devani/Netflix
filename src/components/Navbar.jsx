@@ -54,7 +54,7 @@ const Navbar = () => {
 
   const handleInputChange = () => {
     const query = searchtext.current.value.trim();
-    console.log("searchtext:", query);
+    // console.log("searchtext:", query);
 
     if (query.length > 0) {
       handleSearch(query);

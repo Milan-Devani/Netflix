@@ -66,12 +66,12 @@ function TvshowAiringToday() {
   }
 
   const handleSeasonSelect = (seasonId, seasonNumber) => {
-    console.log(
-      "Dispatching with Season ID:",
-      seasonId,
-      "Season Number:",
-      seasonNumber
-    );
+    // console.log(
+    //   "Dispatching with Season ID:",
+    //   seasonId,
+    //   "Season Number:",
+    //   seasonNumber
+    // );
     dispatch(getTvshowSeason({ seasonId, seasonNumber }));
   };
 
@@ -108,7 +108,7 @@ function TvshowAiringToday() {
 
   let youtubeTrailer = trailerKey;
 
-  console.log("trailerKeyyyyyyyyyyy", youtubeTrailer);
+  // console.log("trailerKeyyyyyyyyyyy", youtubeTrailer);
 
   if (error) {
     return <p>Error: {error}</p>;
@@ -116,13 +116,13 @@ function TvshowAiringToday() {
 
   let handlegenres = selectedTvshowDetails.genres;
 
-  console.log("handlegenres", handlegenres);
+  // console.log("handlegenres", handlegenres);
 
   let voteAverage = selectedTvshowDetails.vote_average;
-  console.log("voteAverage", voteAverage);
+  // console.log("voteAverage", voteAverage);
 
-  console.log("selectedTvshowAiring", selectedTvshow);
-  console.log("selectedTvshowDetailsAiring" , selectedTvshowDetails);
+  // console.log("selectedTvshowAiring", selectedTvshow);
+  // console.log("selectedTvshowDetailsAiring" , selectedTvshowDetails);
   
 
   function getRatingCategory() {
@@ -140,7 +140,7 @@ function TvshowAiringToday() {
   }
   const rating = getRatingCategory(voteAverage);
 
-  console.log(rating);
+  // console.log(rating);
 
   const closePopup = () => {
     setPopupIsOpen(false);
@@ -152,20 +152,20 @@ function TvshowAiringToday() {
   const totalseasons = selectedTvshowDetails.number_of_seasons;
   let seasonname = selectedTvshowDetails.seasons;
 
-  console.log("selectedTvshowDetailsair", selectedTvshowDetails);
+  // console.log("selectedTvshowDetailsair", selectedTvshowDetails);
   let tvshowseasonid = selectedTvshowDetails.id;
-  console.log("tvshowseasonid", tvshowseasonid);
+  // console.log("tvshowseasonid", tvshowseasonid);
 
-  console.log("totalepisodes", totalepisodes);
-  console.log("totalseasons", totalseasons);
+  // console.log("totalepisodes", totalepisodes);
+  // console.log("totalseasons", totalseasons);
 
   const handleEpisodeClick = (episode, tvshowid) => {
     handleGetTrailer(tvshowid);
     setSelectedTvshow(episode);
-    console.log("Episode:", episode);
+    // console.log("Episode:", episode);
   };
 
-  console.log("cdsc", selectedTvshowDetails);
+  // console.log("selectedTvshowDetails", selectedTvshowDetails);
 
   let runtime = selectedTvshowDetails.runtime;
   runtime = parseInt(runtime);
@@ -176,13 +176,13 @@ function TvshowAiringToday() {
   let currentepisodesnumber = selectedTvshow?.episode_number;
   let currentseasonsnumber = selectedTvshow?.season_number;
 
-  console.log("currentepisodesnumber", currentepisodesnumber);
-  console.log("currentseasonsnumber", currentseasonsnumber);
+  // console.log("currentepisodesnumber", currentepisodesnumber);
+  // console.log("currentseasonsnumber", currentseasonsnumber);
 
-  console.log("selectedTvshowseasonep", selectedTvshowseasonep);
+  // console.log("selectedTvshowseasonep", selectedTvshowseasonep);
 
   let Tvshowseasonepisodes = selectedTvshowseasonep.episodes;
-  console.log("Tvshowseasonepisodes", Tvshowseasonepisodes);
+  // console.log("Tvshowseasonepisodes", Tvshowseasonepisodes);
 
   const year = new Date(selectedTvshowDetails.first_air_date).getFullYear();
   const showStatus = year === 2024 ? "New" : "Old";
@@ -190,12 +190,12 @@ function TvshowAiringToday() {
 
   const hendlewishlist = (tvshow) => {
     dispatch(tvshowaddToWishlist(tvshow));
-    console.log("wishlist tvshow", tvshow);
+    // console.log("wishlist tvshow", tvshow);
   };
 
   const hendleFavoritelist = (tvshow) => {
     dispatch(tvshowaddToFavoritelist(tvshow));
-    console.log("Favorite tvshow", tvshow);
+    // console.log("Favorite tvshow", tvshow);
   };
 
   const getDescriptionLength = () => {

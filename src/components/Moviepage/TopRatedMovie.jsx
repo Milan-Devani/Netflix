@@ -62,10 +62,10 @@ function TopRatedMovie() {
     };
   }, [dispatch]);
 
-  console.log("TopRatedMovie", TopRatedMovie);
+  // console.log("TopRatedMovie", TopRatedMovie);
 
   let youtubeTrailer = trailerKey;
-  console.log("youtubeTrailer", youtubeTrailer);
+  // console.log("youtubeTrailer", youtubeTrailer);
 
   const handleGetTrailer = async (movieId) => {
     try {
@@ -119,10 +119,10 @@ function TopRatedMovie() {
   // console.log("hendlegenres", handlegenres);
 
   let voteAverage = selectedMovieDetails.vote_average;
-  console.log("voteAverage", voteAverage);
+  // console.log("voteAverage", voteAverage);
 
-  console.log("SimilarMovies", SimilarMovies);
-  console.log("selectedMovie", selectedMovie);
+  // console.log("SimilarMovies", SimilarMovies);
+  // console.log("selectedMovie", selectedMovie);
 
   function getRatingCategory() {
     if (voteAverage >= 0 && voteAverage <= 4.0) {
@@ -139,7 +139,7 @@ function TopRatedMovie() {
   }
   const rating = getRatingCategory(voteAverage);
 
-  console.log(rating);
+  // console.log(rating);
 
   const closePopup = () => {
     setPopupIsOpen(false);
@@ -149,12 +149,12 @@ function TopRatedMovie() {
 
   const hendlewishlist = (movie) => {
     dispatch(movieaddToWishlist(movie));
-    console.log("wishlist movie", movie);
+    // console.log("wishlist movie", movie);
   };
 
   const hendleFavoritelist = (movie) => {
     dispatch(movieaddToFavoritelist(movie));
-    console.log("Favorite movie", movie);
+    // console.log("Favorite movie", movie);
   };
 
   const certificationAgeMap = {
@@ -168,7 +168,7 @@ function TopRatedMovie() {
     15: "15+",
     18: "18+",
   };
-  console.log("selectedMovieDetails", selectedMovieDetails);
+  // console.log("selectedMovieDetails", selectedMovieDetails);
 
   // Get the certification from your selected data
   let certificationalldata = selectedMovieCertifications[1];
@@ -192,7 +192,7 @@ function TopRatedMovie() {
   const handlesimilarClick = (movie, movieid) => {
     handleGetTrailer(movieid);
     setSelectedMovie(movie);
-    console.log("movie :", movie);
+    // console.log("movie :", movie);
   };
 
   const getDescriptionLength = () => {

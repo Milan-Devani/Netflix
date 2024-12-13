@@ -60,10 +60,10 @@ function Homebanner() {
     };
   }, [dispatch]);
 
-  console.log("PopularMovies", PopularMovies);
+  // console.log("PopularMovies", PopularMovies);
 
   let youtubeTrailer = trailerKey;
-  console.log("youtubeTrailer", youtubeTrailer);
+  // console.log("youtubeTrailer", youtubeTrailer);
 
   const handleGetTrailer = async (movieId) => {
     try {
@@ -116,10 +116,10 @@ function Homebanner() {
   let handlegenres = selectedMovieDetails.genres;
 
   let voteAverage = selectedMovieDetails.vote_average;
-  console.log("voteAverage", voteAverage);
+  // console.log("voteAverage", voteAverage);
 
-  console.log("SimilarMovies", SimilarMovies);
-  console.log("selectedMovie", selectedMovie);
+  // console.log("SimilarMovies", SimilarMovies);
+  // console.log("selectedMovie", selectedMovie);
 
   function getRatingCategory() {
     if (voteAverage >= 0 && voteAverage <= 4.0) {
@@ -136,7 +136,7 @@ function Homebanner() {
   }
   const rating = getRatingCategory(voteAverage);
 
-  console.log(rating);
+  // console.log(rating);
 
   const closePopup = () => {
     setPopupIsOpen(false);
@@ -146,7 +146,7 @@ function Homebanner() {
 
   const hendlewishlist = (movie) => {
     dispatch(movieaddToWishlist(movie));
-    console.log("wishlist movie", movie);
+    // console.log("wishlist movie", movie);
   };
 
   const certificationAgeMap = {
@@ -160,7 +160,7 @@ function Homebanner() {
     15: "15+",
     18: "18+",
   };
-  console.log("selectedMovieDetails", selectedMovieDetails);
+  // console.log("selectedMovieDetails", selectedMovieDetails);
 
   // Get the certification from your selected data
   let certificationalldata = selectedMovieCertifications[1];
@@ -184,7 +184,7 @@ function Homebanner() {
   const handlesimilarClick = (movie, movieid) => {
     handleGetTrailer(movieid);
     setSelectedMovie(movie);
-    console.log("movie :", movie);
+    // console.log("movie :", movie);
   };
 
   const getDescriptionLength = () => {

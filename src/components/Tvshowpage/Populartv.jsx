@@ -75,12 +75,12 @@ function Populartv() {
   }
 
   const handleSeasonSelect = (seasonId, seasonNumber) => {
-    console.log(
-      "Dispatching with Season ID:",
-      seasonId,
-      "Season Number:",
-      seasonNumber
-    );
+    // console.log(
+    //   "Dispatching with Season ID:",
+    //   seasonId,
+    //   "Season Number:",
+    //   seasonNumber
+    // );
     dispatch(getTvshowSeason({ seasonId, seasonNumber }));
   };
 
@@ -118,11 +118,11 @@ function Populartv() {
     }
   };
 
-  console.log("PopularTvshow", PopularTvshow);
+  // console.log("PopularTvshow", PopularTvshow);
 
   let youtubeTrailer = trailerKey;
 
-  console.log("trailerKeyyyyyyyyyyy", youtubeTrailer);
+  // console.log("trailerKeyyyyyyyyyyy", youtubeTrailer);
 
   if (error) {
     return <p>Error: {error}</p>;
@@ -130,12 +130,12 @@ function Populartv() {
 
   let handlegenres = selectedTvshowDetails.genres;
 
-  console.log("handlegenres", handlegenres);
+  // console.log("handlegenres", handlegenres);
 
   let voteAverage = selectedTvshowDetails.vote_average;
-  console.log("voteAverage", voteAverage);
+  // console.log("voteAverage", voteAverage);
 
-  console.log("selectedTvshowDetails", selectedTvshow);
+  // console.log("selectedTvshowDetails", selectedTvshow);
 
   function getRatingCategory() {
     if (voteAverage >= 0 && voteAverage <= 4.0) {
@@ -152,7 +152,7 @@ function Populartv() {
   }
   const rating = getRatingCategory(voteAverage);
 
-  console.log(rating);
+  // console.log(rating);
 
   const closePopup = () => {
     setPopupIsOpen(false);
@@ -164,20 +164,20 @@ function Populartv() {
   const totalseasons = selectedTvshowDetails.number_of_seasons;
   let seasonname = selectedTvshowDetails.seasons;
 
-  console.log("selectedTvshowDetails", selectedTvshowDetails);
+  // console.log("selectedTvshowDetails", selectedTvshowDetails);
   let tvshowseasonid = selectedTvshowDetails.id;
-  console.log("tvshowseasonid", tvshowseasonid);
+  // console.log("tvshowseasonid", tvshowseasonid);
 
-  console.log("totalepisodes", totalepisodes);
-  console.log("totalseasons", totalseasons);
+  // console.log("totalepisodes", totalepisodes);
+  // console.log("totalseasons", totalseasons);
 
   const handleEpisodeClick = (episode, tvshowid) => {
     handleGetTrailer(tvshowid);
     setSelectedTvshow(episode);
-    console.log("Episode:", episode);
+    // console.log("Episode:", episode);
   };
 
-  console.log("cdsc", selectedTvshowDetails);
+  // console.log("selectedTvshowDetails", selectedTvshowDetails);
 
   let runtime = selectedTvshowDetails.runtime; // Assuming runtime is a string like "92min"
   runtime = parseInt(runtime); // Convert string to number
@@ -189,13 +189,13 @@ function Populartv() {
   let currentepisodesnumber = selectedTvshow?.episode_number;
   let currentseasonsnumber = selectedTvshow?.season_number;
 
-  console.log("currentepisodesnumber", currentepisodesnumber);
-  console.log("currentseasonsnumber", currentseasonsnumber);
+  // console.log("currentepisodesnumber", currentepisodesnumber);
+  // console.log("currentseasonsnumber", currentseasonsnumber);
 
-  console.log("selectedTvshowseasonep", selectedTvshowseasonep);
+  // console.log("selectedTvshowseasonep", selectedTvshowseasonep);
 
   let Tvshowseasonepisodes = selectedTvshowseasonep.episodes;
-  console.log("Tvshowseasonepisodes", Tvshowseasonepisodes);
+  // console.log("Tvshowseasonepisodes", Tvshowseasonepisodes);
 
   const year = new Date(selectedTvshowDetails.first_air_date).getFullYear();
   const showStatus = year === 2024 ? "New" : "Old";
@@ -203,12 +203,12 @@ function Populartv() {
 
   const hendlewishlist = (tvshow) => {
     dispatch(tvshowaddToWishlist(tvshow));
-    console.log("wishlist tvshow", tvshow);
+    // console.log("wishlist tvshow", tvshow);
   };
 
   const hendleFavoritelist = (tvshow) => {
     dispatch(tvshowaddToFavoritelist(tvshow));
-    console.log("Favorite tvshow", tvshow);
+    // console.log("Favorite tvshow", tvshow);
   };
 
   const getDescriptionLength = () => {
