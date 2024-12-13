@@ -6,6 +6,8 @@ import navicon from "../assets/img/SmallAvatar.png";
 import { CiSearch } from "react-icons/ci";
 import minilogo from "../assets/img/mini-img.png";
 import { getsearchMoviesandTvshow } from "./Redux/features/Search/searchSlice";
+import { logoutUser } from "./Redux/features/auth/authSlice";
+
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -183,7 +185,7 @@ const Navbar = () => {
                   </li>
                 </div>
                 <div
-                  className={`absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg p-4 transition-all duration-300 ease-in-out transform ${
+                  className={`userprofile absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg p-4 transition-all duration-300 ease-in-out transform ${
                     isOpen
                       ? "opacity-100 scale-100"
                       : "opacity-0 scale-95 pointer-events-none"

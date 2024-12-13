@@ -104,6 +104,11 @@
 
 /* Mobile Styles */
 @media (max-width: 992px) {
+
+  .userprofile{
+    right: auto !important;
+  }
+
   .toggle-bar {
     display: block;
   }
@@ -127,6 +132,7 @@
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
     z-index: 999;
+    padding-left: 30px;
   }
 
   .navbar-links-subb{
@@ -163,6 +169,10 @@
 }
 
 @media (max-width: 450px) {
+  .navbar-links{
+    align-items: flex-start;
+    width: 250px;
+  }
 
     .mobile-views{
         display: block !important;
