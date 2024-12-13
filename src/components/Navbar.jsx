@@ -32,10 +32,6 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // const toggleSearchBar = () => {
-  //   setIsSearchOpen(!isSearchOpen);
-  // };
-
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Pages/Footer";
 import { FaSortDown } from "react-icons/fa";
@@ -12,28 +12,81 @@ import miniimg from "../../assets/img/mini-img.png";
 import PRoutes from "./PRoutes";
 
 const Signin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
+  const {user , loading, error } = useSelector((state) => state.auth);
 
-  const { loading, error } = useSelector((state) => state.auth);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    const savedCredentials = JSON.parse(localStorage.getItem("userCredentials"));
+    if (savedCredentials) {
+      setEmail(savedCredentials.email);
+      setPassword(savedCredentials.password);
+    }
+  }, []);
+  
+
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     // Firebase Authentication
+  //     const userCredential = await signInWithEmailAndPassword(
+  //       auth,
+  //       email,
+  //       password
+  //     );
+  //     const user = userCredential.user;
+
+  //     // Dispatch Redux action and wait for it to complete
+  //     await dispatch(loginUser({ email, password }));
+
+  //     // Success Alert
+  //     Swal.fire({
+  //       icon: "success",
+  //       title: "Login Successful",
+  //       text: `Welcome back, ${user.email}`,
+  //       timer: 2000,
+  //       showConfirmButton: false,
+  //     });
+
+  //     setEmail("");
+  //     setPassword("");
+
+  //     // Redirect after successful login
+  //     navigate("/Homepage");
+  //   } catch (error) {
+  //     // Error Alert
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Login Failed",
+  //       text: error.message,
+  //     });
+  //   }
+  // };
+  
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
       // Firebase Authentication
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+  
       // Dispatch Redux action and wait for it to complete
       await dispatch(loginUser({ email, password }));
-
+  
+      // Save login details in localStorage if "Remember me" is checked
+      const rememberMeCheckbox = document.getElementById("remember-me");
+      if (rememberMeCheckbox.checked) {
+        localStorage.setItem("userCredentials", JSON.stringify({ email, password }));
+      } else {
+        localStorage.removeItem("userCredentials"); // Clear previously stored credentials if unchecked
+      }
+  
       // Success Alert
       Swal.fire({
         icon: "success",
@@ -42,11 +95,9 @@ const Signin = () => {
         timer: 2000,
         showConfirmButton: false,
       });
-
+  
       setEmail("");
       setPassword("");
-
-      // Redirect after successful login
       navigate("/Homepage");
     } catch (error) {
       // Error Alert
@@ -57,6 +108,7 @@ const Signin = () => {
       });
     }
   };
+  
 
   return (
     <div>
