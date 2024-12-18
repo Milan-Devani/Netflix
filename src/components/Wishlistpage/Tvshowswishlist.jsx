@@ -27,6 +27,7 @@ import {
   movieaddToFavoritelist,
   tvshowaddToFavoritelist,
 } from "../Redux/features/favorite/FavoriteSlice";
+import { FaMinus } from "react-icons/fa";
 
 function Tvshowswishlist() {
   const dispatch = useDispatch();
@@ -70,12 +71,17 @@ function Tvshowswishlist() {
   }, [dispatch]);
 
   console.log("wishlistitemmmm", wishlistitem);
-  const tvshowWishlist = wishlistitem
-  .filter((item) => item.media_type === "tv" || !item.media_type)
-  .map((item) => ({
-    ...item,
-    original_name: item.original_name || "Default Name",
-  }));
+  // const tvshowWishlist = wishlistitem
+  // .filter((item) => item.media_type === "tv" || !item.media_type)
+  // .map((item) => ({
+  //   ...item,
+  //   original_name: item.original_name || "Default Name",
+  // }));
+
+  const tvshowWishlist = wishlistitem.filter((item) => {
+    // Check if media_type is 'tv' or, if media_type does not exist, check for original_name
+    return item.media_type === "tv" || (!item.media_type && item.original_name);
+  });
 
   if (isLoading === true) {
     return (
@@ -210,16 +216,23 @@ function Tvshowswishlist() {
 
   const year = new Date(selectedTvshowDetails.first_air_date).getFullYear();
   const showStatus = year === 2024 ? "New" : "Old";
-  const imageBaseUrl = "https://image.tmdb.org/t/p/w500"; // Add base URL\
+  const imageBaseUrl = "https://image.tmdb.org/t/p/w500"; // Add base URL
 
-  const hendlewishlist = (tvshow) => {
-    dispatch(tvshowaddToWishlist(tvshow));
-    console.log("wishlist tvshow", tvshow);
+  const isInWishlist = wishlistitem.some(
+    (item) => item.id === selectedTvshow?.id
+  );
+
+  const handleWishlist = (tvshow) => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(tvshow)); // Remove from wishlist
+    } else {
+      dispatch(movieaddToWishlist(tvshow)); // Add to wishlist
+    }
   };
 
-  const hendleFavoritelist = (movie) => {
-    dispatch(tvshowaddToFavoritelist(movie));
-    console.log("Favorite movie", movie);
+  const hendleFavoritelist = (tvshow) => {
+    dispatch(tvshowaddToFavoritelist(tvshow));
+    console.log("Favorite tvshow", tvshow);
   };
 
   const getDescriptionLength = () => {
@@ -247,11 +260,11 @@ function Tvshowswishlist() {
           </div>
         </div>
         <div className="">
-          <div className="flex gap-[10px]">
+          <div className="flex gap-[10px] flex-wrap">
             {tvshowWishlist?.map((tvshow, index) => (
               <div key={`${tvshow.id}-${index}`}>
-                <div className="main-cart rounded-lg overflow-hidden shadow-main">
-                  <div className="main-cart-inner w-full rounded-lg relative">
+                <div className="main-cart rounded-lg overflow-hidden shadow-main onlywishlist">
+                  <div className="main-cart-inner w-full rounded-lg relative my-[15px]">
                     <div className="mini-img w-[11px] h-[20px] absolute left-[10px] top-[10px]">
                       <img src={miniimg} alt="Mini" />
                     </div>
@@ -296,13 +309,6 @@ function Tvshowswishlist() {
                         className="cursor-pointer"
                       />
                     </div>
-                    {/* <div className="img-inner-text absolute bottom-[10px] left-[10px] font-NetflixSans text-white">
-                      <h1>
-                        {tvshow?.name.length > 13
-                          ? `${tvshow.name.slice(0, 13)}...`
-                          : tvshow.name}
-                      </h1>
-                    </div> */}
 
                     <div className="img-inner-text absolute bottom-[10px] left-[10px] font-NetflixSans text-white">
                       <h1>
@@ -363,7 +369,9 @@ function Tvshowswishlist() {
 
               {/* Movie details and similar movies section */}
               <div className="selectedMovie-details-section absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-[#181818] to-transparent">
-                <h1 className="text-3xl font-bold">{selectedTvshow.name}</h1>
+                <h1 className="selectedMovie-details-section-h1 text-3xl font-bold">
+                  {selectedTvshow.name}
+                </h1>
                 <div className="selectedMovie-details-section-icon flex items-center mt-[40px]">
                   <div className="flex">
                     <button
@@ -384,6 +392,22 @@ function Tvshowswishlist() {
                     >
                       <TfiPlus className="wishlistbtn-icon w-5 h-5" />
                     </button> */}
+
+                    {isInWishlist ? (
+                      <button
+                        onClick={() => handleWishlist(selectedTvshow)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <FaMinus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleWishlist(selectedTvshow)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <TfiPlus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    )}
 
                     <button
                       onClick={() => hendleFavoritelist(selectedTvshow)}

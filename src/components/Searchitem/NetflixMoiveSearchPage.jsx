@@ -23,7 +23,8 @@ import { SlLike } from "react-icons/sl";
 import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import Preloader from "../Preloader"; // Import Preloader
-import { movieaddToWishlist } from "../Redux/features/wishlist/wishlistSlice";
+import { movieaddToWishlist, removeFromWishlist } from "../Redux/features/wishlist/wishlistSlice";
+import { FaMinus } from "react-icons/fa";
 
 function NetflixMoiveSearchPage() {
   const dispatch = useDispatch();
@@ -45,6 +46,8 @@ function NetflixMoiveSearchPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const search = useSelector((state) => state.Search);
+  const wishlistitem = useSelector((state) => state.wishlistitem.items);
+
 
   useEffect(() => {
     dispatch(getTrendingMovies());
@@ -70,6 +73,17 @@ function NetflixMoiveSearchPage() {
 
   let youtubeTrailer = trailerKey;
   // console.log("youtubeTrailer", youtubeTrailer);
+
+
+  const isInWishlist = wishlistitem.some((item) => item.id === selectedMovie?.id);
+
+  const handleWishlist = (movie) => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(movie)); // Remove from wishlist
+    } else {
+      dispatch(movieaddToWishlist(movie)); // Add to wishlist
+    }
+  };
 
   const handleGetTrailer = async (movieId) => {
     try {
@@ -209,7 +223,7 @@ function NetflixMoiveSearchPage() {
   };
 
   return (
-    <div className="netflix-pages row px-[75px] MovieandTvshowTrendingRow overflow-hidden md:container md:mx-auto">
+    <div className="netflix-pages row px-[35px] MovieandTvshowTrendingRow overflow-hidden md:container md:mx-auto">
       <div className="Trending-Today min-h-[235px]">
         <div className="Trending-Today-title-div mb-[40px] flex items-center justify-between">
           <div className="">
@@ -346,7 +360,7 @@ function NetflixMoiveSearchPage() {
 
               {/* Movie details and similar movies section */}
               <div className="selectedMovie-details-section absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-[#181818] to-transparent">
-                <h1 className="text-3xl font-bold">{selectedMovie.title}</h1>
+                <h1 className="selectedMovie-details-section-h1 text-3xl font-bold">{selectedMovie.title}</h1>
                 <div className="selectedMovie-details-section-icon flex items-center mt-[40px]">
                   <div className="flex">
                     <button
@@ -361,6 +375,22 @@ function NetflixMoiveSearchPage() {
                   </div>
 
                   <div className="gap-[10px] flex">
+
+                  {isInWishlist ? (
+                      <button
+                        onClick={() => handleWishlist(selectedMovie)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <FaMinus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleWishlist(selectedMovie)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <TfiPlus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    )}
 
                     <button className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] border-[#ffffff]/50  items-center justify-center flex">
                       <SlLike className="wishlistbtn-icon w-5 h-5" />

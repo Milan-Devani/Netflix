@@ -44,6 +44,8 @@ function MovieandTvshowTrendingRow() {
   const [showTrailer, setShowTrailer] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMovieId, setHoveredMovieId] = useState(null); // Track hovered movie's ID
+  const wishlistitem = useSelector((state) => state.wishlistitem.items);
+  
 
   useEffect(() => {
     dispatch(getTrendingMoviesandTvshow());
@@ -319,7 +321,7 @@ function MovieandTvshowTrendingRow() {
 
               {/* Movie details and similar movies section */}
               <div className="absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-[#181818] to-transparent">
-                <h1 className="text-3xl font-bold">{selectedMovie.title}</h1>
+                <h1 className="selectedMovie-details-section-h1 text-3xl font-bold">{selectedMovie.title}</h1>
                 <div className="flex items-center mt-[40px]">
                   <div className="flex">
                     <button

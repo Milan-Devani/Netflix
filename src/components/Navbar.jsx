@@ -61,7 +61,7 @@ const Navbar = () => {
     <nav className="navbar items-center bg-transparent px-16">
       <div className="navbar-logo">
         <Link to="/Homepage">
-          <div className="website-views logo w-[26vh] mr-[20px]">
+          <div className="website-views logo w-[22vh] mr-[20px]">
             <span className="" data-uia="nmhp-card-header+logo">
               <svg
                 viewBox="0 0 111 30"

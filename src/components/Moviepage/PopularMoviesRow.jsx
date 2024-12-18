@@ -23,9 +23,9 @@ import { SlLike } from "react-icons/sl";
 import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import Preloader from "../Preloader"; // Import Preloader
-import { movieaddToWishlist } from "../Redux/features/wishlist/wishlistSlice";
+import { movieaddToWishlist, removeFromWishlist } from "../Redux/features/wishlist/wishlistSlice";
 import { movieaddToFavoritelist } from "../Redux/features/favorite/FavoriteSlice";
-
+import { FaMinus } from "react-icons/fa";
 
 function PopularMoviesRow() {
   const dispatch = useDispatch();
@@ -47,6 +47,8 @@ function PopularMoviesRow() {
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const wishlistitem = useSelector((state) => state.wishlistitem.items);
+
 
   useEffect(() => {
     dispatch(getPopularMovies());
@@ -146,9 +148,16 @@ function PopularMoviesRow() {
     setTimeout(() => setSelectedMovie(null), 500);
   };
 
-  const hendlewishlist = (movie) => {
-    dispatch(movieaddToWishlist(movie));
-    // console.log("wishlist movie", movie);
+  const isInWishlist = wishlistitem.some(
+    (item) => item.id === selectedMovie?.id
+  );
+
+  const handleWishlist = (movie) => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(movie)); // Remove from wishlist
+    } else {
+      dispatch(movieaddToWishlist(movie)); // Add to wishlist
+    }
   };
 
   const hendleFavoritelist = (movie) => {
@@ -250,82 +259,84 @@ function PopularMoviesRow() {
             className="mySwiper"
           >
             <div className="flex gap-[10px]">
-              {PopularMovies?.filter((movie) => movie.backdrop_path).map((movie, index) => (
-                <SwiperSlide key={`${movie.id}-${index}`}>
-                  <div className="main-cart rounded-lg overflow-hidden shadow-main">
-                    <div className="main-cart-inner w-full rounded-lg relative">
-                      <div className="mini-img w-[11px] h-[20px] absolute left-[10px] top-[10px]">
-                        <img src={miniimg} alt="Mini" />
-                      </div>
-                      <div className="web-view">
-                        <img
-                          src={`${imageBaseUrl}${movie.backdrop_path}`}
-                          alt={movie.title}
-                          onClick={() => {
-                            handleGetTrailer(movie.id);
-                            setSelectedMovie(movie);
-                          }}
-                          onMouseEnter={async () => {
-                            setHoveredMovieId(movie.id);
-                            try {
-                              await dispatch(
-                                getMovieDetails(movie.id)
-                              ).unwrap();
-                              await dispatch(
-                                getMovieCertifications(movie.id)
-                              ).unwrap();
-                            } catch (error) {
-                              console.error(
-                                "Error fetching movie details:",
-                                error
-                              );
-                            }
-                          }}
-                          onMouseLeave={() => setHoveredMovieId(null)}
-                          className="w-full h-[180px] object-cover cursor-pointer"
-                        />
-                      </div>
-                      <div className="mobile-view hidden">
-                        <img
-                          src={`${imageBaseUrl}${movie.poster_path}`}
-                          alt={movie.title}
-                          onClick={() => {
-                            handleGetTrailer(movie.id); // Fetches the trailer
-                            setSelectedMovie(movie); // Sets the selected movie
-                          }}
-                          onMouseEnter={async () => {
-                            setHoveredMovieId(movie.id); // Set hovered movie ID
+              {PopularMovies?.filter((movie) => movie.backdrop_path).map(
+                (movie, index) => (
+                  <SwiperSlide key={`${movie.id}-${index}`}>
+                    <div className="main-cart rounded-lg overflow-hidden shadow-main">
+                      <div className="main-cart-inner w-full rounded-lg relative">
+                        <div className="mini-img w-[11px] h-[20px] absolute left-[10px] top-[10px]">
+                          <img src={miniimg} alt="Mini" />
+                        </div>
+                        <div className="web-view">
+                          <img
+                            src={`${imageBaseUrl}${movie.backdrop_path}`}
+                            alt={movie.title}
+                            onClick={() => {
+                              handleGetTrailer(movie.id);
+                              setSelectedMovie(movie);
+                            }}
+                            onMouseEnter={async () => {
+                              setHoveredMovieId(movie.id);
+                              try {
+                                await dispatch(
+                                  getMovieDetails(movie.id)
+                                ).unwrap();
+                                await dispatch(
+                                  getMovieCertifications(movie.id)
+                                ).unwrap();
+                              } catch (error) {
+                                console.error(
+                                  "Error fetching movie details:",
+                                  error
+                                );
+                              }
+                            }}
+                            onMouseLeave={() => setHoveredMovieId(null)}
+                            className="w-full h-[180px] object-cover cursor-pointer"
+                          />
+                        </div>
+                        <div className="mobile-view hidden">
+                          <img
+                            src={`${imageBaseUrl}${movie.poster_path}`}
+                            alt={movie.title}
+                            onClick={() => {
+                              handleGetTrailer(movie.id); // Fetches the trailer
+                              setSelectedMovie(movie); // Sets the selected movie
+                            }}
+                            onMouseEnter={async () => {
+                              setHoveredMovieId(movie.id); // Set hovered movie ID
 
-                            try {
-                              // Dispatch multiple actions one by one or use Promise.all for parallel dispatch
-                              await dispatch(
-                                getMovieDetails(movie.id)
-                              ).unwrap();
-                              await dispatch(
-                                getMovieCertifications(movie.id)
-                              ).unwrap(); // .unwrap() is used to handle the promise result or errors
-                            } catch (error) {
-                              console.error(
-                                "Error fetching movie details or certifications:",
-                                error
-                              );
-                            }
-                          }}
-                          onMouseLeave={() => setHoveredMovieId(null)} // Clear on mouse leave
-                          className="cursor-pointer"
-                        />
-                      </div>
-                      <div className="img-inner-text absolute bottom-[10px] left-[10px] font-NetflixSans text-white">
-                        <h1>
-                          {movie?.title.length > 13
-                            ? `${movie.title.slice(0, 13)}...`
-                            : movie.title}
-                        </h1>
+                              try {
+                                // Dispatch multiple actions one by one or use Promise.all for parallel dispatch
+                                await dispatch(
+                                  getMovieDetails(movie.id)
+                                ).unwrap();
+                                await dispatch(
+                                  getMovieCertifications(movie.id)
+                                ).unwrap(); // .unwrap() is used to handle the promise result or errors
+                              } catch (error) {
+                                console.error(
+                                  "Error fetching movie details or certifications:",
+                                  error
+                                );
+                              }
+                            }}
+                            onMouseLeave={() => setHoveredMovieId(null)} // Clear on mouse leave
+                            className="cursor-pointer"
+                          />
+                        </div>
+                        <div className="img-inner-text absolute bottom-[10px] left-[10px] font-NetflixSans text-white">
+                          <h1>
+                            {movie?.title.length > 13
+                              ? `${movie.title.slice(0, 13)}...`
+                              : movie.title}
+                          </h1>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-              ))}
+                  </SwiperSlide>
+                )
+              )}
             </div>
           </Swiper>
         </div>
@@ -342,9 +353,7 @@ function PopularMoviesRow() {
             </div>
             <div className="selectedMovie-sub-section relative min-h-[800px]">
               <div className="selectedMovie-play-section h-[480px] shadow-main">
-            
-
-{showTrailer ? (
+                {showTrailer ? (
                   youtubeTrailer ? (
                     <iframe
                       width="100%"
@@ -377,7 +386,9 @@ function PopularMoviesRow() {
 
               {/* Movie details and similar movies section */}
               <div className="selectedMovie-details-section absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-[#181818] to-transparent">
-                <h1 className="text-3xl font-bold">{selectedMovie.title}</h1>
+                <h1 className="selectedMovie-details-section-h1 text-3xl font-bold">
+                  {selectedMovie.title}
+                </h1>
                 <div className="selectedMovie-details-section-icon flex items-center mt-[40px]">
                   <div className="flex">
                     <button
@@ -392,12 +403,29 @@ function PopularMoviesRow() {
                   </div>
 
                   <div className="gap-[10px] flex">
-                    <button
+
+                    {/* <button
                       onClick={() => hendlewishlist(selectedMovie)}
                       className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
                     >
                       <TfiPlus className="wishlistbtn-icon w-5 h-5" />
-                    </button>
+                    </button> */}
+
+                    {isInWishlist ? (
+                      <button
+                        onClick={() => handleWishlist(selectedMovie)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <FaMinus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleWishlist(selectedMovie)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <TfiPlus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    )}
 
                     <button
                       onClick={() => hendleFavoritelist(selectedMovie)}

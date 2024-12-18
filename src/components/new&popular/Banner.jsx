@@ -18,6 +18,8 @@ import { RiPlayLargeFill } from "react-icons/ri";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { TfiPlus } from "react-icons/tfi";
 import { SlLike } from "react-icons/sl";
+import { FaMinus } from "react-icons/fa";
+import { movieaddToWishlist, removeFromWishlist } from "../Redux/features/wishlist/wishlistSlice";
 
 const Banner = () => {
   
@@ -31,6 +33,7 @@ const Banner = () => {
     selectedMovieDetails,
     SimilarMovies,
   } = useSelector((state) => state.movies);
+  const wishlistitem = useSelector((state) => state.wishlistitem.items);
 
   const [popupIsOpen, setPopupIsOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -44,6 +47,15 @@ const Banner = () => {
 
   console.log("Nowplaymoviedds" , Nowplaymovies);
   
+  const isInWishlist = wishlistitem.some((item) => item.id === selectedMovie?.id);
+
+  const handleWishlist = (movie) => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(movie)); // Remove from wishlist
+    } else {
+      dispatch(movieaddToWishlist(movie)); // Add to wishlist
+    }
+  };
 
   const handleGetTrailer = async (movieId) => {
     try {
@@ -186,9 +198,25 @@ const Banner = () => {
                     </div>
 
                     <div className="gap-[10px] flex">
-                      <button className="w-[40px] h-[40px] rounded-full border-[2px] border-[#ffffff]/50 items-center justify-center flex ">
+                      {/* <button className="w-[40px] h-[40px] rounded-full border-[2px] border-[#ffffff]/50 items-center justify-center flex ">
                         <TfiPlus className="w-5 h-5" />
+                      </button> */}
+
+{isInWishlist ? (
+                      <button
+                        onClick={() => handleWishlist(selectedMovie)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <FaMinus className="wishlistbtn-icon w-5 h-5" />
                       </button>
+                    ) : (
+                      <button
+                        onClick={() => handleWishlist(selectedMovie)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <TfiPlus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    )}
                       <button className="w-[40px] h-[40px] rounded-full border-[2px] border-[#ffffff]/50  items-center justify-center flex">
                         <SlLike className="w-4 h-4" />
                       </button>

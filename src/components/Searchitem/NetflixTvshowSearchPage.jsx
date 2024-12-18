@@ -22,7 +22,8 @@ import {
   getTvshowSeason,
   getTvshowTrailer,
 } from "../Redux/features/Tvshow/TvshowSlice";
-import { tvshowaddToWishlist } from "../Redux/features/wishlist/wishlistSlice";
+import { movieaddToWishlist, removeFromWishlist, tvshowaddToWishlist } from "../Redux/features/wishlist/wishlistSlice";
+import { FaMinus } from "react-icons/fa";
 
 function NetflixTvshowSearchPage() {
   const dispatch = useDispatch();
@@ -50,6 +51,8 @@ function NetflixTvshowSearchPage() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   //   const wishlistitem = useSelector((state) => state.wishlistitem.items);
   const search = useSelector((state) => state.Search);
+  const wishlistitem = useSelector((state) => state.wishlistitem.items);
+
 
   useEffect(() => {
     dispatch(getTrendingTvshow());
@@ -189,6 +192,16 @@ function NetflixTvshowSearchPage() {
     // console.log("Episode:", episode);
   };
 
+  const isInWishlist = wishlistitem.some((item) => item.id === selectedTvshow?.id);
+
+  const handleWishlist = (movie) => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(movie)); // Remove from wishlist
+    } else {
+      dispatch(movieaddToWishlist(movie)); // Add to wishlist
+    }
+  };
+
   // console.log("cdsc", selectedTvshowDetails);
 
   let runtime = selectedTvshowDetails.runtime; // Assuming runtime is a string like "92min"
@@ -233,7 +246,7 @@ function NetflixTvshowSearchPage() {
   };
 
   return (
-    <div className="netflix-pages row px-[75px] MovieandTvshowTrendingRow overflow-hidden md:container md:mx-auto">
+    <div className="netflix-pages row px-[35px] MovieandTvshowTrendingRow overflow-hidden md:container md:mx-auto">
       <div className="Trending-Today min-h-[235px]">
         <div className="Trending-Today-title-div mb-[40px] flex items-center justify-between">
           <div className="">
@@ -347,7 +360,7 @@ function NetflixTvshowSearchPage() {
 
               {/* Movie details and similar movies section */}
               <div className="selectedMovie-details-section absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-[#181818] to-transparent">
-                <h1 className="text-3xl font-bold">{selectedTvshow.name}</h1>
+                <h1 className="selectedMovie-details-section-h1 text-3xl font-bold">{selectedTvshow.name}</h1>
                 <div className="selectedMovie-details-section-icon flex items-center mt-[40px]">
                   <div className="flex">
                     <button
@@ -362,12 +375,22 @@ function NetflixTvshowSearchPage() {
                   </div>
 
                   <div className="gap-[10px] flex">
-                    <button
-                      onClick={() => hendlewishlist(selectedTvshow)}
-                      className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
-                    >
-                      <TfiPlus className="wishlistbtn-icon w-5 h-5" />
-                    </button>
+
+                  {isInWishlist ? (
+                      <button
+                        onClick={() => handleWishlist(selectedTvshow)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <FaMinus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleWishlist(selectedTvshow)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <TfiPlus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    )}
 
                     <button className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] border-[#ffffff]/50  items-center justify-center flex">
                       <SlLike className="wishlistbtn-icon w-5 h-5" />

@@ -19,8 +19,9 @@ import {
   getTvshowSeason,
   getTvshowTrailer,
 } from "../Redux/features/Tvshow/TvshowSlice";
-import { tvshowaddToWishlist } from "../Redux/features/wishlist/wishlistSlice";
+import { movieaddToWishlist, removeFromWishlist, tvshowaddToWishlist } from "../Redux/features/wishlist/wishlistSlice";
 import { tvshowaddToFavoritelist } from "../Redux/features/favorite/FavoriteSlice";
+import { FaMinus } from "react-icons/fa";
 
 function TvshowAiringToday() {
   const dispatch = useDispatch();
@@ -43,6 +44,8 @@ function TvshowAiringToday() {
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const wishlistitem = useSelector((state) => state.wishlistitem.items);
+
 
   useEffect(() => {
     dispatch(getAiringTodayTVShow());
@@ -188,9 +191,15 @@ function TvshowAiringToday() {
   const showStatus = year === 2024 ? "New" : "Old";
   const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
-  const hendlewishlist = (tvshow) => {
-    dispatch(tvshowaddToWishlist(tvshow));
-    // console.log("wishlist tvshow", tvshow);
+
+  const isInWishlist = wishlistitem.some((item) => item.id === selectedTvshow?.id);
+
+  const handleWishlist = (tvshow) => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(tvshow)); // Remove from wishlist
+    } else {
+      dispatch(movieaddToWishlist(tvshow)); // Add to wishlist
+    }
   };
 
   const hendleFavoritelist = (tvshow) => {
@@ -363,7 +372,7 @@ function TvshowAiringToday() {
 
               {/* Movie details and similar movies section */}
               <div className="selectedMovie-details-section absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-[#181818] to-transparent">
-                <h1 className="text-3xl font-bold">{selectedTvshow.name}</h1>
+                <h1 className="selectedMovie-details-section-h1 text-3xl font-bold">{selectedTvshow.name}</h1>
                 <div className="selectedMovie-details-section-icon flex items-center mt-[40px]">
                   <div className="flex">
                     <button
@@ -378,12 +387,29 @@ function TvshowAiringToday() {
                   </div>
 
                   <div className="gap-[10px] flex">
-                    <button
+
+                    {/* <button
                       onClick={() => hendlewishlist(selectedTvshow)}
                       className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
                     >
                       <TfiPlus className="wishlistbtn-icon w-5 h-5" />
-                    </button>
+                    </button> */}
+
+{isInWishlist ? (
+                      <button
+                        onClick={() => handleWishlist(selectedTvshow)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <FaMinus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleWishlist(selectedTvshow)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <TfiPlus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    )}
 
                     <button
                     onClick={() => hendleFavoritelist(selectedTvshow)}

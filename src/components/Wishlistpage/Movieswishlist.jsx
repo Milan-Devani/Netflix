@@ -23,7 +23,8 @@ import { SlLike } from "react-icons/sl";
 import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import Preloader from "../Preloader"; // Import Preloader
-import { movieaddToWishlist } from "../Redux/features/wishlist/wishlistSlice";
+import { movieaddToWishlist, removeFromWishlist } from "../Redux/features/wishlist/wishlistSlice";
+import { FaMinus } from "react-icons/fa";
 
 function Movieswishlist() {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ function Movieswishlist() {
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+
   useEffect(() => {
     dispatch(getTrendingMovies());
 
@@ -60,17 +62,19 @@ function Movieswishlist() {
     };
   }, [dispatch]);
 
-  // const handleChange = (e) => {
-  //   const selectedValue = e.target.value;
-  //   setTimeWindow(selectedValue);
+  // const movieWishlist = wishlistitem.filter(
+  //   (item) =>
+  //     item.media_type === "movie" || (!item.media_type && item.original_title)
+  // );
 
-  //   // Dispatch the action with the selected time window value
-  //   dispatch(getTrendingMovies(selectedValue));
-  // };
+  const movieWishlist = wishlistitem
+  .filter((item) => item.media_type === "movie" || !item.media_type)
+  .map((item) => ({
+    ...item,
+    original_title: item.original_title || "Default Name",
+  }));
 
-  // console.log("wishlistitemmmm", wishlistitem);
-
-  const movieWishlist = wishlistitem.filter(item => item.media_type === "movie");
+  // console.log("original_title");
 
   let youtubeTrailer = trailerKey;
   // console.log("youtubeTrailer", youtubeTrailer);
@@ -160,6 +164,17 @@ function Movieswishlist() {
   //   console.log("wishlist movie", movie);
   // };
 
+  const isInWishlist = wishlistitem.some((item) => item.id === selectedMovie?.id);
+
+  
+  const handleWishlist = (movie) => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(movie)); // Remove from wishlist
+    } else {
+      dispatch(movieaddToWishlist(movie)); // Add to wishlist
+    }
+  };
+
   const hendleFavoritelist = (movie) => {
     dispatch(movieaddToFavoritelist(movie));
     // console.log("Favorite movie", movie);
@@ -228,75 +243,77 @@ function Movieswishlist() {
           </div>
         </div>
         <div className="">
-
-          <div className="flex gap-[10px]">
+          <div className="flex flex-wrap gap-[10px]">
             {movieWishlist.map((movie, index) => (
               <div key={`${movie.id}-${index}`}>
-                <div className="main-cart rounded-lg overflow-hidden shadow-main">
-                <div className="main-cart-inner w-full rounded-lg relative">
-                  <div className="mini-img w-[11px] h-[20px] absolute left-[10px] top-[10px]">
-                    <img src={miniimg} alt="Mini" />
-                  </div>
-                  <div className="web-view">
-                    <img
-                      src={`${imageBaseUrl}${movie.backdrop_path}`}
-                      alt={movie.title}
-                      onClick={() => {
-                        handleGetTrailer(movie.id);
-                        setSelectedMovie(movie);
-                      }}
-                      onMouseEnter={async () => {
-                        setHoveredMovieId(movie.id);
-                        try {
-                          await dispatch(getMovieDetails(movie.id)).unwrap();
-                          await dispatch(
-                            getMovieCertifications(movie.id)
-                          ).unwrap();
-                        } catch (error) {
-                          console.error("Error fetching movie details:", error);
-                        }
-                      }}
-                      onMouseLeave={() => setHoveredMovieId(null)}
-                      className="w-full h-[180px] object-cover cursor-pointer"
-                    />
-                  </div>
-                  <div className="mobile-view hidden">
-                    <img
-                      src={`${imageBaseUrl}${movie.poster_path}`}
-                      alt={movie.title}
-                      onClick={() => {
-                        handleGetTrailer(movie.id); // Fetches the trailer
-                        setSelectedMovie(movie); // Sets the selected movie
-                      }}
-                      onMouseEnter={async () => {
-                        setHoveredMovieId(movie.id); // Set hovered movie ID
+                <div className="main-cart rounded-lg overflow-hidden shadow-main onlywishlist">
+                  <div className="main-cart-inner w-full rounded-lg relative ">
+                    <div className="mini-img w-[11px] h-[20px] absolute left-[10px] top-[10px]">
+                      <img src={miniimg} alt="Mini" />
+                    </div>
+                    <div className="web-view">
+                      <img
+                        src={`${imageBaseUrl}${movie.backdrop_path}`}
+                        alt={movie.title}
+                        onClick={() => {
+                          handleGetTrailer(movie.id);
+                          setSelectedMovie(movie);
+                        }}
+                        onMouseEnter={async () => {
+                          setHoveredMovieId(movie.id);
+                          try {
+                            await dispatch(getMovieDetails(movie.id)).unwrap();
+                            await dispatch(
+                              getMovieCertifications(movie.id)
+                            ).unwrap();
+                          } catch (error) {
+                            console.error(
+                              "Error fetching movie details:",
+                              error
+                            );
+                          }
+                        }}
+                        onMouseLeave={() => setHoveredMovieId(null)}
+                        className="w-full h-[180px] object-cover cursor-pointer"
+                      />
+                    </div>
+                    <div className="mobile-view hidden">
+                      <img
+                        src={`${imageBaseUrl}${movie.poster_path}`}
+                        alt={movie.title}
+                        onClick={() => {
+                          handleGetTrailer(movie.id); // Fetches the trailer
+                          setSelectedMovie(movie); // Sets the selected movie
+                        }}
+                        onMouseEnter={async () => {
+                          setHoveredMovieId(movie.id); // Set hovered movie ID
 
-                        try {
-                          // Dispatch multiple actions one by one or use Promise.all for parallel dispatch
-                          await dispatch(getMovieDetails(movie.id)).unwrap();
-                          await dispatch(
-                            getMovieCertifications(movie.id)
-                          ).unwrap(); // .unwrap() is used to handle the promise result or errors
-                        } catch (error) {
-                          console.error(
-                            "Error fetching movie details or certifications:",
-                            error
-                          );
-                        }
-                      }}
-                      onMouseLeave={() => setHoveredMovieId(null)} // Clear on mouse leave
-                      className="cursor-pointer"
-                    />
-                  </div>
-                  <div className="img-inner-text absolute bottom-[10px] left-[10px] font-NetflixSans text-white">
-                    <h1>
-                      {movie?.title.length > 13
-                        ? `${movie.title.slice(0, 13)}...`
-                        : movie.title}
-                    </h1>
+                          try {
+                            // Dispatch multiple actions one by one or use Promise.all for parallel dispatch
+                            await dispatch(getMovieDetails(movie.id)).unwrap();
+                            await dispatch(
+                              getMovieCertifications(movie.id)
+                            ).unwrap(); // .unwrap() is used to handle the promise result or errors
+                          } catch (error) {
+                            console.error(
+                              "Error fetching movie details or certifications:",
+                              error
+                            );
+                          }
+                        }}
+                        onMouseLeave={() => setHoveredMovieId(null)} // Clear on mouse leave
+                        className="cursor-pointer"
+                      />
+                    </div>
+                    <div className="img-inner-text absolute bottom-[10px] left-[10px] font-NetflixSans text-white">
+                      <h1>
+                        {movie?.title.length > 13
+                          ? `${movie.title.slice(0, 13)}...`
+                          : movie.title}
+                      </h1>
+                    </div>
                   </div>
                 </div>
-              </div>
               </div>
             ))}
           </div>
@@ -337,7 +354,9 @@ function Movieswishlist() {
 
               {/* Movie details and similar movies section */}
               <div className="selectedMovie-details-section absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-[#181818] to-transparent">
-                <h1 className="text-3xl font-bold">{selectedMovie.title}</h1>
+                <h1 className="selectedMovie-details-section-h1 text-3xl font-bold">
+                  {selectedMovie.title}
+                </h1>
                 <div className="selectedMovie-details-section-icon flex items-center mt-[40px]">
                   <div className="flex">
                     <button
@@ -352,9 +371,26 @@ function Movieswishlist() {
                   </div>
 
                   <div className="gap-[10px] flex">
+                    {isInWishlist ? (
+                      <button
+                        onClick={() => handleWishlist(selectedMovie)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <FaMinus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleWishlist(selectedMovie)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <TfiPlus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    )}
+
                     <button
-                    onClick={()=>hendleFavoritelist(selectedMovie)}
-                    className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] border-[#ffffff]/50  items-center justify-center flex">
+                      onClick={() => hendleFavoritelist(selectedMovie)}
+                      className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] border-[#ffffff]/50  items-center justify-center flex"
+                    >
                       <SlLike className="wishlistbtn-icon w-5 h-5" />
                     </button>
                   </div>

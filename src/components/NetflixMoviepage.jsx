@@ -35,7 +35,7 @@ function NetflixMoviepage() {
     <div>
       <div className="pb-[80px]">
         <Navbar />
-        <Homebanner />
+        {/* <Homebanner /> */}
         <div className="px-[15px]">
           <TrendingMovieRow />
           <NowPlayMoviePage />

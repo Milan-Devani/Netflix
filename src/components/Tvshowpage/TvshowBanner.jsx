@@ -20,7 +20,8 @@ import {
   getTvshowEpisode,
   getTvshowTrailer,
 } from "../Redux/features/Tvshow/TvshowSlice";
-import { tvshowaddToWishlist } from "../Redux/features/wishlist/wishlistSlice";
+import { movieaddToWishlist, removeFromWishlist, tvshowaddToWishlist } from "../Redux/features/wishlist/wishlistSlice";
+import { FaMinus } from "react-icons/fa";
 
 const TvshowBanner = () => {
   const dispatch = useDispatch();
@@ -42,6 +43,8 @@ const TvshowBanner = () => {
   const [showTrailer, setShowTrailer] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [selectedSeasonId, setSelectedSeasonId] = useState(null); // Track selected season ID
+  const wishlistitem = useSelector((state) => state.wishlistitem.items);
+
 
   useEffect(() => {
     dispatch(getTVShow());
@@ -65,9 +68,14 @@ const TvshowBanner = () => {
     console.log("Episode:", episode);
   };
 
-  const hendlewishlist = (tvshow) => {
-    dispatch(tvshowaddToWishlist(tvshow));
-    console.log("wishlist tvshow", tvshow);
+  const isInWishlist = wishlistitem.some((item) => item.id === selectedTvshow?.id);
+
+  const handleWishlist = (tvshow) => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(tvshow)); // Remove from wishlist
+    } else {
+      dispatch(movieaddToWishlist(tvshow)); // Add to wishlist
+    }
   };
 
   if (isLoading === true) {
@@ -217,64 +225,7 @@ const TvshowBanner = () => {
     <div>
       <div className="banner">
 
-        {/* <div className="movie-container relative top-[-80px]">
-          <Swiper
-            modules={[Navigation, Pagination, Autoplay]}
-            loop={true}
-            autoplay={{ delay: 10000, disableOnInteraction: false }}
-            speed={1000}
-            navigation
-            pagination={{ clickable: true }}
-            className="movie-swiper"
-          >
-            {getTvshow.map((tvshow, ind) => (
-              <SwiperSlide key={tvshow.id}>
-                <div className="relative h-screen items-center">
-                  <div className="">
-                    <img
-                      src={`https://image.tmdb.org/t/p/w1280${tvshow.backdrop_path}`}
-                      alt={tvshow.original_name}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  <div
-                    className="absolute justify-center
-                   inset-0 bg-gradient-to-t from-black to-transparent flex flex-col p-8"
-                  >
-                    <h2 className="text-white text-[3.2vw] font-HelveticaNeue font-bold">
-                      {tvshow.original_name}
-                    </h2>
-                    <p className="text-white font-NetflixSans font-light mt-4 max-w-[33rem] leading-[21.71px] text-[1.12vw]">
-                      {tvshow.overview.length > 160
-                        ? `${tvshow.overview.slice(0, 160)}...`
-                        : tvshow.overview}
-                    </p>
-                    <div className="mt-4 flex">
-                      <button
-                        className="bg-white text-[1.045vw] flex items-center gap-[10px] text-black px-4 py-2 rounded mr-4 font-NetflixSans font-bold"
-                        onClick={() => {
-                          handleGetTrailer(tvshow.id); // Fetches the trailer
-                          setselectedTvshow(tvshow); // Sets the selected movie
-                        }}
-                      >
-                        <span>
-                          <RiPlayLargeFill className="w-[25px] h-[25px]" />
-                        </span>
-                        Play
-                      </button>
-                      <button className="bg-[#6d6d6e]/70 flex text-[1.045vw] text-white px-4 gap-[10px] py-2 rounded font-NetflixSans font-bold">
-                        <span>
-                          <AiOutlineInfoCircle className="w-[25px] h-[25px]" />
-                        </span>
-                        More Info
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div> */}
+        
 
 <div className="movie-container relative top-[-80px] web-banner-view">
         <Swiper
@@ -421,209 +372,6 @@ const TvshowBanner = () => {
 
         {/* -=-=- */}
 
-
-        {/* {selectedTvshow && popupIsOpen && (
-          <div className="mx-auto rounded">
-            <div className="bg-[#181818] w-[850px] top-[100px] left-1/2 transform -translate-x-1/2 mx-auto text-white font-NetflixSans absolute z-[5] rounded-[10px]">
-              <div className="absolute top-3 right-3 z-10">
-                <button onClick={closePopup}>
-                  <IoMdClose className="text-white w-8 h-8 cursor-pointer" />
-                </button>
-              </div>
-              <div className="relative min-h-[800px]">
-                <div className="h-[480px] shadow-main">
-                  {showTrailer ? (
-                    <iframe
-                      width="100%"
-                      height="100%"
-                      src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&rel=0&modestbranding=1`}
-                      title={selectedTvshow.title}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      sandbox="allow-same-origin allow-scripts"
-                      allowFullScreen
-                    ></iframe>
-                  ) : (
-                    <img
-                      src={`${imageBaseUrl}${selectedTvshow.backdrop_path}`}
-                      alt={selectedTvshow.title}
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                </div>
-
-                <div className="absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-[#181818] to-transparent">
-                  <h1 className="text-3xl font-bold">{selectedTvshow.title}</h1>
-
-                  <div className="flex items-center mt-[40px]">
-                    <div className="flex">
-                      <button
-                        onClick={() => setShowTrailer(!showTrailer)} // Toggle trailer
-                        className="bg-white text-[1.045vw] flex items-center gap-[10px] text-black px-4 py-2 rounded mr-4 font-NetflixSans font-bold"
-                      >
-                        <span>
-                          <RiPlayLargeFill className="w-[25px] h-[25px]" />
-                        </span>
-                        {showTrailer ? "Stop" : "Play"}{" "}
-                      </button>
-                    </div>
-
-                    <div className="gap-[10px] flex">
-                      <button className="w-[40px] h-[40px] rounded-full border-[2px] border-[#ffffff]/50 items-center justify-center flex ">
-                        <TfiPlus className="w-5 h-5" />
-                      </button>
-                      <button className="w-[40px] h-[40px] rounded-full border-[2px] border-[#ffffff]/50  items-center justify-center flex">
-                        <SlLike className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="mt-[60px] flex justify-between">
-                    <div className="w-[60%]">
-                      <div className="flex items-center space-x-4">
-                        <span
-                          className={`font-NetflixSans ${
-                            year > 2024 ? "text-[#46d369]" : "text-[#ff9800]"
-                          }`}
-                        >
-                          {year > 2024 ? "New" : "Old Blockbuster"}
-                        </span>
-                        <div className="text-[#bcbcbc] flex gap-[8px] items-center">
-                          <span>{totalseasons} Seasons</span>
-                          <span>{year}</span>
-                          <div className="flex items-center justify-center w-[40px] h-[20px] border-[1px] border-[#808080] rounded-[4px]">
-                            <span className="text-white text-[14px]">HD</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center p-2 rounded-md">
-                        <div className="px-[4px] border-[1px] border-[#808080] text-[#808080] text-[11px] mr-2">
-                          {selectedTvshowDetails.adult ? "13+" : "18+"}
-                        </div>
-
-                        <div className="text-white flex text-[14px]">
-                          {handlegenres.map((item, ind) => {
-                            return (
-                              <div key={ind}>
-                                <p className="text-[14px] text-justify text-[#777777]">
-                                  {item.name}
-                                  {ind < 2 && ","}
-                                </p>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                      <p className="mt-2 text-[20px]">TV Show</p>
-                      <p className="mt-4 text-[16px]">
-                        {selectedTvshow.overview.length > 160
-                          ? `${selectedTvshow.overview.slice(0, 160)}...`
-                          : selectedTvshow.overview}
-                      </p>
-                    </div>
-
-                    <div className="w-[33%]">
-                      <div className="flex flex-wrap items-center gap-1">
-                        <h2 className="text-white">Cast :</h2>
-                        {selectedTvshowCedites.slice(0, 4).map((item, ind) => {
-                          return (
-                            <div key={ind}>
-                              <p className="text-[14px] text-justify text-[#777777]">
-                                {item.name}
-                                {ind < 3 && ","}
-                              </p>
-                            </div>
-                          );
-                        })}
-                      </div>
-
-                      <div className="flex flex-wrap items-center gap-1 my-[12px]">
-                        <h2 className="text-white">Genres:</h2>
-                        {handlegenres.map((item, ind) => {
-                          return (
-                            <div key={ind}>
-                              <p className="text-[14px] text-justify text-[#777777]">
-                                {item.name}
-                                {ind < 2 && ","}
-                              </p>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-]              <div className="mt-4 p-12 pt-0">
-                <div className="mb-[50px] flex justify-between items-center">
-                  <h2 className="text-2xl font-bold">Episodes</h2>
-                  <div className="bg-transparent">
-                    <select
-                      className="bg-transparent text-white border border-gray-300 p-2 rounded"
-                      name="season"
-                      id="season-dropdown"
-                      value={selectedSeasonId || ""}
-                      onChange={handleSeasonChange} // Add onChange handler
-                    >
-                      <option value="" disabled>
-                        Select a season
-                      </option>
-                      {selectedTvshowDetails?.seasons?.map((seasonItem) => (
-                        <option
-                          key={seasonItem.id}
-                          value={seasonItem.id}
-                          className="bg-black text-white"
-                        >
-                          {seasonItem.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="mt-2 space-y-4">
-                  <div className="overflow-y-auto h-[400px]">
-                    {Array.isArray(TvshowEpisode) &&
-                      TvshowEpisode.slice(0, 10).map((movie, ind) => (
-                        <div
-                          key={ind}
-                          className="flex items-start space-x-4 py-[34px] pl-[34px] pr-[50px] rounded border-b border-[#404040] bg-[#181818] hover:bg-[#404040]"
-                        >
-                          <div className="h-[70px] flex items-center">
-                            <h1 className="text-[24px]">{ind + 1}</h1>
-                          </div>
-                          <div className="flex w-full items-center justify-between gap-[15px]">
-                            <div className="h-[70px] w-[21%]">
-                              <img
-                                src={`${imageBaseUrl}${movie.backdrop_path}`}
-                                alt={movie.title}
-                                className="w-full h-full object-cover rounded-lg"
-                              />
-                            </div>
-                            <div className="w-[75%]">
-                              <div className="flex items-center justify-between">
-                                <h3 className="text-white font-normal">
-                                  {movie.title}
-                                </h3>
-                              </div>
-                              <p className="text-[14px] text-[#d2d2d2] leading-5 w-[92%]">
-                                {movie.overview.length > 124
-                                  ? `${movie.overview.slice(0, 124)}...`
-                                  : movie.overview}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )} */}
-
         {selectedTvshow && popupIsOpen && (
           <div className="mx-auto rounded">
             <div className="selectedMovie-section bg-[#181818] w-[850px] top-[100px] left-1/2 transform -translate-x-1/2 mx-auto text-white font-NetflixSans absolute z-[5] rounded-[10px]">
@@ -667,7 +415,7 @@ const TvshowBanner = () => {
 
                 {/* Movie details and similar movies section */}
                 <div className="selectedMovie-details-section absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-[#181818] to-transparent">
-                  <h1 className="text-3xl font-bold">{selectedTvshow.name}</h1>
+                  <h1 className="selectedMovie-details-section-h1 text-3xl font-bold">{selectedTvshow.name}</h1>
                   <div className="selectedMovie-details-section-icon flex items-center mt-[40px]">
                     <div className="flex">
                       <button
@@ -682,12 +430,21 @@ const TvshowBanner = () => {
                     </div>
 
                     <div className="gap-[10px] flex">
+                    {isInWishlist ? (
                       <button
-                        onClick={() => hendlewishlist(selectedTvshow)}
+                        onClick={() => handleWishlist(selectedTvshow)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <FaMinus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleWishlist(selectedTvshow)}
                         className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
                       >
                         <TfiPlus className="wishlistbtn-icon w-5 h-5" />
                       </button>
+                    )}
 
                       <button className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] border-[#ffffff]/50  items-center justify-center flex">
                         <SlLike className="wishlistbtn-icon w-5 h-5" />

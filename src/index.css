@@ -224,3 +224,10 @@
 .MovieTrendingRow .swiper-slide.last-slide {
   padding-right: 142px;
 }
+
+/* wishlist */
+
+.onlywishlist{
+  margin-top: 15px !important;
+  margin-bottom: 15px !important;
+}

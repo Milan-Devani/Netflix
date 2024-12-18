@@ -25,8 +25,9 @@ import { SlLike } from "react-icons/sl";
 import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import Preloader from "../Preloader"; // Import Preloader
-import { movieaddToWishlist } from "../Redux/features/wishlist/wishlistSlice";
+import { movieaddToWishlist, removeFromWishlist } from "../Redux/features/wishlist/wishlistSlice";
 import { movieaddToFavoritelist } from "../Redux/features/favorite/FavoriteSlice";
+import { FaMinus } from "react-icons/fa";
 
 function TopRatedMovie() {
   const dispatch = useDispatch();
@@ -48,6 +49,8 @@ function TopRatedMovie() {
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const wishlistitem = useSelector((state) => state.wishlistitem.items);
+
 
   useEffect(() => {
     dispatch(getTopRatedMovies());
@@ -147,9 +150,16 @@ function TopRatedMovie() {
     setTimeout(() => setSelectedMovie(null), 500);
   };
 
-  const hendlewishlist = (movie) => {
-    dispatch(movieaddToWishlist(movie));
-    // console.log("wishlist movie", movie);
+  const isInWishlist = wishlistitem.some(
+    (item) => item.id === selectedMovie?.id
+  );
+
+  const handleWishlist = (movie) => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(movie)); // Remove from wishlist
+    } else {
+      dispatch(movieaddToWishlist(movie)); // Add to wishlist
+    }
   };
 
   const hendleFavoritelist = (movie) => {
@@ -378,7 +388,7 @@ function TopRatedMovie() {
 
               {/* Movie details and similar movies section */}
               <div className="selectedMovie-details-section absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-[#181818] to-transparent">
-                <h1 className="text-3xl font-bold">{selectedMovie.title}</h1>
+                <h1 className="selectedMovie-details-section-h1 text-3xl font-bold">{selectedMovie.title}</h1>
                 <div className="selectedMovie-details-section-icon flex items-center mt-[40px]">
                   <div className="flex">
                     <button
@@ -393,12 +403,29 @@ function TopRatedMovie() {
                   </div>
 
                   <div className="gap-[10px] flex">
-                    <button
+
+                    {/* <button
                       onClick={() => hendlewishlist(selectedMovie)}
                       className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
                     >
                       <TfiPlus className="wishlistbtn-icon w-5 h-5" />
-                    </button>
+                    </button> */}
+
+{isInWishlist ? (
+                      <button
+                        onClick={() => handleWishlist(selectedMovie)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <FaMinus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleWishlist(selectedMovie)}
+                        className="wishlistbtn w-[40px] h-[40px] rounded-full border-[2px] items-center justify-center ease-linear flex border-[#ffffff]/50"
+                      >
+                        <TfiPlus className="wishlistbtn-icon w-5 h-5" />
+                      </button>
+                    )}
 
                     <button
                       onClick={() => hendleFavoritelist(selectedMovie)}

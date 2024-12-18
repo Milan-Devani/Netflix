@@ -51,7 +51,6 @@
 
 
 /* General Styles */
-/* General Styles */
 
 
 .navbar {
@@ -176,6 +175,10 @@
 
     .mobile-views{
         display: block !important;
+    }
+
+    .userprofile{
+      width: 16rem;
     }
 
     .website-views{

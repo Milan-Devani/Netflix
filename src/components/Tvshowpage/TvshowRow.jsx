@@ -79,41 +79,7 @@ function TvshowRow() {
   let youtubeTrailer = trailerKey;
   console.log("youtubeTrailer", youtubeTrailer);
 
-  // const handleGetTrailer = async (movieId) => {
-  //   try {
-  //     setIsLoading(true);
-
-  //     // Ensure the preloader shows for at least 5 seconds
-  //     const preloaderPromise = new Promise((resolve) =>
-  //       setTimeout(resolve, 1000)
-  //     );
-
-  //     const dataFetchPromise = (async () => {
-  //       await dispatch(getMovieCedites(movieId)).unwrap();
-  //       await dispatch(getMovieDetails(movieId)).unwrap();
-  //       await dispatch(getMovieSimilar(movieId)).unwrap();
-  //       await dispatch(getMovieCertifications(movieId)).unwrap();
-
-  //       return await dispatch(getMovieTrailer(movieId)).unwrap();
-  //     })();
-
-  //     const trailerResult = await Promise.all([
-  //       preloaderPromise,
-  //       dataFetchPromise,
-  //     ]).then(([, trailerResult]) => trailerResult);
-
-  //     setIsLoading(false);
-
-  //     if (trailerResult) {
-  //       setPopupIsOpen(true);
-  //     } else {
-  //       console.error("Trailer not available for this Movie.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching Movie data:", error);
-  //     setIsLoading(false);
-  //   }
-  // };
+  
 
   const handleGetTrailer = async (movieId) => {
     try {
@@ -391,7 +357,7 @@ function TvshowRow() {
 
               {/* Movie details and similar movies section */}
               <div className="selectedMovie-details-section absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-[#181818] to-transparent">
-                <h1 className="text-3xl font-bold">{selectedMovie.title}</h1>
+                <h1 className="selectedMovie-details-section-h1 text-3xl font-bold">{selectedMovie.title}</h1>
                 <div className="selectedMovie-details-section-icon flex items-center mt-[40px]">
                   <div className="flex">
                     <button

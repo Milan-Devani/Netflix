@@ -30,7 +30,7 @@ function NetflixNewandPopularpage() {
     <div>
       <div className="pb-[80px] px-[15px]">
         <Navbar />
-        <Homebanner />
+        {/* <Homebanner /> */}
         <PopularMoviesRow />
         <NowPlayMoviePage />
         <Populartv/>
