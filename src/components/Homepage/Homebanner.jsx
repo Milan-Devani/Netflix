@@ -65,7 +65,7 @@ function Homebanner() {
     };
   }, [dispatch]);
 
-  console.log("PopularMovies", PopularMovies);
+  // console.log("PopularMovies", PopularMovies);
 
   let youtubeTrailer = trailerKey;
   // console.log("youtubeTrailer", youtubeTrailer);
@@ -121,10 +121,10 @@ function Homebanner() {
   let handlegenres = selectedMovieDetails.genres;
 
   let voteAverage = selectedMovieDetails.vote_average;
-  console.log("voteAverage", voteAverage);
+  // console.log("voteAverage", voteAverage);
 
-  console.log("SimilarMovies", SimilarMovies);
-  console.log("selectedMovie", selectedMovie);
+  // console.log("SimilarMovies", SimilarMovies);
+  // console.log("selectedMovie", selectedMovie);
 
   function getRatingCategory() {
     if (voteAverage >= 0 && voteAverage <= 4.0) {
@@ -196,7 +196,7 @@ function Homebanner() {
   const handlesimilarClick = (movie , movieid) => {
     handleGetTrailer(movieid);
     setSelectedMovie(movie);
-    console.log("movie :", movie);  
+    // console.log("movie :", movie);  
   };
 
   const getDescriptionLength = () => {
