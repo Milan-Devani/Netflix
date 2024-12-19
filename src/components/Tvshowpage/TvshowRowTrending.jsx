@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getMovieCertifications,
-  getTrendingTvshow,
 } from "../Redux/features/movies/movieSlice";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -16,6 +15,7 @@ import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import Preloader from "../Preloader";
 import {
+  getTrendingTvshow,
   getTvshowCedites,
   getTvshowDetails,
   getTvshowEpisode,

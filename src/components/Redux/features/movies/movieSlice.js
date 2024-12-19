@@ -53,12 +53,24 @@ export const getTrendingMoviesandTvshow = createAsyncThunk(
 );
 
 // Async thunk for fetching trending TV shows
+// export const getTrendingTvshow = createAsyncThunk(
+//   'movies/getTrendingTvshow',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const movies = await fetchTrendingTvshow();
+//       return movies;
+//     } catch (error) {
+//       return rejectWithValue(error.message);
+//     }
+//   }
+// );
+
 export const getTrendingTvshow = createAsyncThunk(
-  'movies/getTrendingTvshow',
-  async (_, { rejectWithValue }) => {
+  'tvshow/getTrendingTvshow',
+  async (timeWindow, { rejectWithValue }) => {
     try {
-      const movies = await fetchTrendingTvshow();
-      return movies;
+      const tvshow = await fetchTrendingTvshow(timeWindow);
+      return tvshow;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -175,7 +187,6 @@ const movieSlice = createSlice({
     PopularMovies: [],
     TopRatedMovie:[],
     UpcomingMovies:[],
-    Trendingtvshow: [],
     Nowplaymovies :[],
     Trendingmovieandtvshow:[],
     selectedMovieCedites : [],
@@ -187,7 +198,6 @@ const movieSlice = createSlice({
     status: 'idle',
     error: null,
   },
-
   
   reducers: {},
   extraReducers: (builder) => {

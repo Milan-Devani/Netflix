@@ -52,6 +52,8 @@ export const getTrendingTvshow = createAsyncThunk(
   }
 );
 
+
+
 export const getPopularTvshow = createAsyncThunk(
   'Tvshow/getPopularTvshow',
   async (_ , { rejectWithValue }) => {

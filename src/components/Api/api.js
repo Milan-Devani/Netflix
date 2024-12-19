@@ -312,7 +312,7 @@ export const fetchTrendingTvshow = async (timeWindow = "day") => {
     });4
     return response.data.results;
   } catch (error) {
-    console.error("Error fetching trending movies:", error);
+    console.error("Error fetching trending tvshow:", error);
   }
 };
 
