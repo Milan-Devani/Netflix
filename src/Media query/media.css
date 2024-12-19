@@ -197,6 +197,8 @@
     .selectedMovie-details-section-h1{
         font-size: 6vw;
     }
+
+    
 }
 
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
@@ -625,6 +627,11 @@
     .navbar-main{
         padding-left: 20px;
         padding-right: 20px;
+    }
+
+    .row .swiper-wrapper {
+        margin: 0 23px !important;
+        gap: 20px;
     }
 
 }

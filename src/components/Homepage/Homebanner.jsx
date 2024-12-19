@@ -28,6 +28,7 @@ import {
   removeFromWishlist,
 } from "../Redux/features/wishlist/wishlistSlice";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import { FaMinus } from "react-icons/fa";
 
 function Homebanner() {
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ function Homebanner() {
     };
   }, [dispatch]);
 
-  // console.log("PopularMovies", PopularMovies);
+  console.log("PopularMovies", PopularMovies);
 
   let youtubeTrailer = trailerKey;
   // console.log("youtubeTrailer", youtubeTrailer);
@@ -120,10 +121,10 @@ function Homebanner() {
   let handlegenres = selectedMovieDetails.genres;
 
   let voteAverage = selectedMovieDetails.vote_average;
-  // console.log("voteAverage", voteAverage);
+  console.log("voteAverage", voteAverage);
 
-  // console.log("SimilarMovies", SimilarMovies);
-  // console.log("selectedMovie", selectedMovie);
+  console.log("SimilarMovies", SimilarMovies);
+  console.log("selectedMovie", selectedMovie);
 
   function getRatingCategory() {
     if (voteAverage >= 0 && voteAverage <= 4.0) {
@@ -192,10 +193,10 @@ function Homebanner() {
 
   const imageBaseUrl = "https://image.tmdb.org/t/p/w1280"; // Add base URL
 
-  const handlesimilarClick = (movie, movieid) => {
+  const handlesimilarClick = (movie , movieid) => {
     handleGetTrailer(movieid);
     setSelectedMovie(movie);
-    // console.log("movie :", movie);
+    console.log("movie :", movie);  
   };
 
   const getDescriptionLength = () => {
@@ -251,7 +252,7 @@ function Homebanner() {
                   >
                     <div className="banner-main-sub w-[60%]">
                       <h2 className="text-white text-[3.2vw] font-HelveticaNeue font-bold">
-                        {movie.title}
+                        {`${movie.title.slice(0, 20)}`}
                       </h2>
                       <p className="text-white font-NetflixSans font-light mt-4 max-w-[33rem] leading-[21.71px] text-[1.12vw]">
                         {movie.overview.length > 160
